@@ -1,4 +1,4 @@
-baseURL = "https://www.github.com/hhitman47/test1.git"
+baseURL = "https://www.github.com/hhitman47/test1"
 languageCode = "en-us"
 title = "Safia Malik"
 theme = "hugo-resume-master"
