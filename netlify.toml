@@ -1,30 +1,37 @@
+# Global settings applied to the whole site.  
+# 
+# “base” is the directory to change to before starting build. If you set base:
+#        that is where we will look for package.json/.nvmrc/etc, not repo root!
+# “command” is your build command.
+# “publish” is the directory to publish (relative to the root of your repo).
+
 [build]
-publish = "public"
-command = "hugo --gc --minify"
+  base    = "site"
+  command = "make"
+  publish = "site/public"
 
-[context.production.environment]
-HUGO_VERSION = "0.56.0"
-HUGO_ENV = "production"
-HUGO_ENABLEGITINFO = "true"
+# Production context: All deploys from the main
+# repository branch will inherit these settings.
+[context.production]
+  command = "make production"
+  [context.production.environment]
+    ACCESS_TOKEN = "super secret"
 
-[context.split1]
-command = "hugo --gc --minify --enableGitInfo"
-
-[context.split1.environment]
-HUGO_VERSION = "0.56.0"
-HUGO_ENV = "production"
-
-[context.deploy-preview]
-command = "hugo --gc --minify --buildFuture -b $DEPLOY_PRIME_URL"
-
+# Deploy Preview context: All deploys generated from a pull/merge request
+# will inherit these settings.
 [context.deploy-preview.environment]
-HUGO_VERSION = "0.56.0"
+  ACCESS_TOKEN = "not so secret"
 
+# Branch deploy context: All deploys that are not from a pull/merge request
+# or from the production branch will inherit these settings.
 [context.branch-deploy]
-command = "hugo --gc --minify -b $DEPLOY_PRIME_URL"
+  command = "make staging"
 
-[context.branch-deploy.environment]
-HUGO_VERSION = "�"
+# Specific branch context: Deploys from this branch
+# will take these settings and override their
+# current ones.
+[context.feature]
+  command = "make feature"
 
-[context.next.environment]
-HUGO_ENABLEGITINFO = "true"
+[context."features/branch"]
+  command = "gulp"
